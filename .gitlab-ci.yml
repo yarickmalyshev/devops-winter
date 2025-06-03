@@ -1,0 +1,23 @@
+image: docker:latest
+services:
+  - docker:dind
+
+stages:
+  - build
+  - test
+  - deploy
+
+build:
+  script:
+    - docker build -t winter-cms .
+    - echo "Image built"
+
+test:
+  script:
+    - docker run --rm winter-cms php -r "echo 'PHP is working';"
+    - echo "Basic tests passed"
+
+deploy:
+  when: manual
+  script:
+    - echo "Deploying to dev/staging..."
